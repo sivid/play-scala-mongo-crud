@@ -1,0 +1,98 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+
+<html lang="en" ng-app="sividApp">
+    <head>
+        <title>@title</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+        <!--<script src="@routes.Assets.versioned("javascripts/hello.js")" type="text/javascript"></script>-->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.js"></script>
+        <link rel="stylesheet" href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+        <script src="@routes.Assets.versioned("javascripts/ui-bootstrap-tpls-1.1.2.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("javascripts/sApp.js")" type="text/javascript"></script>
+        <script type="text/ng-template" id="myModalContent.html">
+            <div class="modal-header">
+                <h3 class="modal-title">I'm a modal!</h3>
+            </div>
+            <div class="modal-body">
+                Modal body here
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Age</span>
+                    <input type="text" class="form-control" placeholder="User Age"
+                           aria-describedby="basic-addon1" ng-model="m.age">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon2">First Name</span>
+                    <input type="text" class="form-control" placeholder="User First Name"
+                           aria-describedby="basic-addon2" ng-model="m.fName">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon3">Last Name</span>
+                    <input type="text" class="form-control" placeholder="User Last Name"
+                           aria-describedby="basic-addon3" ng-model="m.lName">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" ng-click="personModifySubmit()">OK</button>
+                <button class="btn btn-warning" type="button" ng-click="modifyPersonCancel()">Cancel</button>
+            </div>
+        </script>
+    </head>
+    <body>
+        <!--text from main.scala.html-->
+        <!--@content-->
+        <!--end text from main.scala.html-->
+        <div ng-controller="mainCtrl">
+            <div class="container">
+                <div class="jumbotron">
+                    <h2>Play CRUD with MongoDB</h2>
+                </div>
+                <uib-tabset>
+                    <uib-tab select="refreshList()">
+                        <uib-tab-heading>
+                            <i class="glyphicon glyphicon-star"></i> List of current Persons
+                        </uib-tab-heading>
+                        <ul class="list-group">
+                            <li class="list-group-item" ng-repeat="item in items">
+                                <div>Person Age: {{item.age}}, First Name: {{item.firstName}}, Last Name: {{item.lastName}}</div>
+                                <button type="button" class="btn" ng-click="modifyPerson(item._id.$oid)">Modify this Person</button>
+                                <button type="button" class="btn" ng-click="removePerson(item._id.$oid)">Remove this Person</button>
+                            </li>
+                        </ul>
+                    </uib-tab>
+                    <button type="button" class="btn" ng-click="refreshList()">Refresh this List</button>
+
+                    <!--<uib-tab select="alertMe()">-->
+                    <uib-tab select="addPersonModalOpen()">
+                        <uib-tab-heading>
+                            <i class="glyphicon glyphicon-plus"></i> Add another Person
+                        </uib-tab-heading>
+                        <div ng-controller="addPersonCtrl">
+                            <form action="/person/" method="post">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1">Age</span>
+                                    <input type="text" class="form-control" placeholder="User Age"
+                                           aria-describedby="basic-addon1" ng-model="age">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon2">First Name</span>
+                                    <input type="text" class="form-control" placeholder="User First Name"
+                                           aria-describedby="basic-addon2" ng-model="fName">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon3">Last Name</span>
+                                    <input type="text" class="form-control" placeholder="User Last Name"
+                                           aria-describedby="basic-addon3" ng-model="lName">
+                                </div>
+                                <button type="button" class="btn" ng-click="personSubmit()">Submit!</button>
+                            </form>
+                        </div>
+
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+    </body>
+</html>
