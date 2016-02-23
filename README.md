@@ -1,0 +1,1 @@
+# play-scala-mongo-crud
